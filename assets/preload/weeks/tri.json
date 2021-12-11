@@ -1,0 +1,20 @@
+{
+	"songs": [
+		["triple-trouble", "tails", [255, 120, 191]]
+	],
+
+	"weekCharacters": [
+		"",
+		"bf",
+		""
+	],
+	"weekBackground": "school",
+
+	"storyName": "triple trouble",
+	"weekBefore": "week6",
+	"weekName": "triple trouble",
+	"startUnlocked": true,
+
+	"hideStoryMode": true,
+	"hideFreeplay": false
+}

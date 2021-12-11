@@ -59,6 +59,8 @@ class Character extends FlxSprite
 	public var idleSuffix:String = '';
 	public var danceIdle:Bool = false; //Character use "danceLeft" and "danceRight" instead of "idle"
 
+	public var nonanimated:Bool = false;
+
 	public var healthIcon:String = 'face';
 	public var animationsArray:Array<AnimArray> = [];
 
@@ -263,7 +265,7 @@ class Character extends FlxSprite
 	 */
 	public function dance()
 	{
-		if (!debugMode && !specialAnim)
+		if (!debugMode && !specialAnim && !nonanimated)
 		{
 			if(danceIdle)
 			{
@@ -282,31 +284,33 @@ class Character extends FlxSprite
 
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
-		specialAnim = false;
-		animation.play(AnimName, Force, Reversed, Frame);
-
-		var daOffset = animOffsets.get(AnimName);
-		if (animOffsets.exists(AnimName))
-		{
-			offset.set(daOffset[0], daOffset[1]);
-		}
-		else
-			offset.set(0, 0);
-
-		if (curCharacter.startsWith('gf'))
-		{
-			if (AnimName == 'singLEFT')
+		if (!nonanimated) {
+			specialAnim = false;
+			animation.play(AnimName, Force, Reversed, Frame);
+	
+			var daOffset = animOffsets.get(AnimName);
+			if (animOffsets.exists(AnimName))
 			{
-				danced = true;
+				offset.set(daOffset[0], daOffset[1]);
 			}
-			else if (AnimName == 'singRIGHT')
+			else
+				offset.set(0, 0);
+	
+			if (curCharacter.startsWith('gf'))
 			{
-				danced = false;
-			}
-
-			if (AnimName == 'singUP' || AnimName == 'singDOWN')
-			{
-				danced = !danced;
+				if (AnimName == 'singLEFT')
+				{
+					danced = true;
+				}
+				else if (AnimName == 'singRIGHT')
+				{
+					danced = false;
+				}
+	
+				if (AnimName == 'singUP' || AnimName == 'singDOWN')
+				{
+					danced = !danced;
+				}
 			}
 		}
 	}

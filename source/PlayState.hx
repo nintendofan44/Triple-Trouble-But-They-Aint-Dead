@@ -60,6 +60,9 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
+	var bgspec:FlxSprite;
+	var daP3Static:FlxSprite = new FlxSprite(0, 0);
+
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
@@ -263,6 +266,30 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+		if (SONG.song.toLowerCase() == 'triple-trouble')
+		{
+			daP3Static.frames = Paths.getSparrowAtlas('Phase3Static', 'exe');
+			daP3Static.animation.addByPrefix('P3Static', 'Phase3Static instance 1', 24, false);
+			add(daP3Static);
+			daP3Static.animation.play('P3Static');
+			remove(daP3Static);
+
+			dad = new Character(DAD_X, DAD_Y, 'funi');
+			add(dad);
+			remove(dad);
+
+			dad = new Character(DAD_X, DAD_Y, 'knuckles');
+			add(dad);
+			remove(dad);
+
+			dad = new Character(DAD_X, DAD_Y, 'eggman');
+			add(dad);
+			remove(dad);
+
+			dad = new Character(DAD_X, DAD_Y, 'tails');
+			add(dad);
+			remove(dad);
+		}
 		#if MODS_ALLOWED
 		Paths.destroyLoadedImages();
 		#end
@@ -392,6 +419,52 @@ class PlayState extends MusicBeatState
 
 		switch (curStage)
 		{
+			case 'trioStage':
+				curStage = 'TrioStage';
+
+				var sSKY:FlxSprite = new FlxSprite(-621.1, -395.65).loadGraphic(Paths.image('Phase3/Glitch', 'exe'));
+				sSKY.antialiasing = true;
+				sSKY.scrollFactor.set(0.9, 1);
+				sSKY.active = false;
+				sSKY.scale.x = 1.2;
+				sSKY.scale.y = 1.2;
+				add(sSKY);
+
+				var trees:FlxSprite = new FlxSprite(-607.35, -401.55).loadGraphic(Paths.image('Phase3/Trees', 'exe'));
+				trees.antialiasing = true;
+				trees.scrollFactor.set(0.95, 1);
+				trees.active = false;
+				trees.scale.x = 1.2;
+				trees.scale.y = 1.2;
+				add(trees);
+
+				var bg2:FlxSprite = new FlxSprite(-623.5, -410.4).loadGraphic(Paths.image('Phase3/Trees2', 'exe'));
+				bg2.updateHitbox();
+				bg2.antialiasing = true;
+				bg2.scrollFactor.set(1, 1);
+				bg2.active = false;
+				bg2.scale.x = 1.2;
+				bg2.scale.y = 1.2;
+				add(bg2);
+
+				var bg:FlxSprite = new FlxSprite(-630.4, -266).loadGraphic(Paths.image('Phase3/Grass', 'exe'));
+				bg.antialiasing = true;
+				bg.scrollFactor.set(1.1, 1);
+				bg.active = false;
+				bg.scale.x = 1.2;
+				bg.scale.y = 1.2;
+				add(bg);
+
+				bgspec = new FlxSprite(-428.5 + 50, -449.35 + 25).makeGraphic(2199, 1203, FlxColor.BLACK);
+				bgspec.antialiasing = true;
+				bgspec.scrollFactor.set(1, 1);
+				bgspec.active = false;
+				bgspec.visible = false;
+
+				bgspec.scale.x = 1.2;
+				bgspec.scale.y = 1.2;
+				add(bgspec);
+
 			case 'stage': //Week 1
 				var bg:BGSprite = new BGSprite('stageback', -600, -200, 0.9, 0.9);
 				add(bg);
@@ -1346,6 +1419,32 @@ class PlayState extends MusicBeatState
 			} else {
 				startCountdown();
 			}
+		}
+	}
+
+	function doP3Static()
+	{
+		daP3Static.frames = Paths.getSparrowAtlas('Phase3Static', 'exe');
+		daP3Static.animation.addByPrefix('P3Static', 'Phase3Static instance 1', 24, false);
+
+		daP3Static.screenCenter();
+
+		daP3Static.scale.x = 4;
+		daP3Static.scale.y = 4;
+		daP3Static.alpha = 0.5;
+
+		daP3Static.cameras = [camOther];
+
+		add(daP3Static);
+
+		daP3Static.animation.play('P3Static');
+
+		daP3Static.animation.finishCallback = function(pog:String)
+		{
+			trace('ended p3static');
+			daP3Static.alpha = 0;
+
+			remove(daP3Static);
 		}
 	}
 
@@ -4061,6 +4160,66 @@ class PlayState extends MusicBeatState
 
 		if(curStep == lastStepHit) {
 			return;
+		}
+
+		if (curSong.toLowerCase() == 'triple-trouble')
+		{
+			switch (curStep)
+			{
+				case 1:
+					doP3Static(); // cool static
+					FlxTween.tween(FlxG.camera, {zoom: 1.1}, 2, {ease: FlxEase.cubeOut});
+					defaultCamZoom = 1.1;
+				case 1024, 1088, 1216, 1280, 2305, 2810, 3199, 4096:
+					doP3Static();
+				case 1040: // switch to sonic facing right
+					FlxTween.tween(FlxG.camera, {zoom: 0.9}, 2, {ease: FlxEase.cubeOut});
+					defaultCamZoom = 0.9;
+
+					//remove(dad);
+					//dad = new Character(DAD_X, DAD_Y, 'funi');
+					//add(dad);
+
+					//iconP2.changeIcon('funi');
+				case 1296: // switch to knuckles facing left facing right and bf facing right, and cool static
+					FlxTween.tween(FlxG.camera, {zoom: 1.1}, 2, {ease: FlxEase.cubeOut});
+					defaultCamZoom = 1.1;
+
+					//remove(dad);
+					//dad = new Character(DAD_X, DAD_Y, 'knuckles');
+					//add(dad);
+
+					//iconP2.changeIcon('knuckles');
+				case 2320:
+					FlxTween.tween(FlxG.camera, {zoom: 0.9}, 2, {ease: FlxEase.cubeOut});
+					defaultCamZoom = 0.9;
+
+					//remove(dad);
+					//dad = new Character(DAD_X, DAD_Y, 'funi');
+					//add(dad);
+
+					//iconP2.changeIcon('funi');
+				case 2823:
+					FlxTween.tween(FlxG.camera, {zoom: 1}, 2, {ease: FlxEase.cubeOut});
+					defaultCamZoom = 1;
+
+					//remove(dad);
+					//dad = new Character(DAD_X, DAD_Y, 'eggman');
+					//add(dad);
+
+					//iconP2.changeIcon('eggman');
+				case 2887, 3015, 4039:
+					dad.playAnim('laugh', true);
+					dad.nonanimated = true;
+				case 2895, 3023, 4048:
+					dad.nonanimated = false;
+				case 4111:
+					//remove(dad);
+					//dad = new Character(DAD_X, DAD_Y, 'funi');
+					//add(dad);
+
+					//iconP2.animation.play('funi');
+			}
 		}
 
 		lastStepHit = curStep;
