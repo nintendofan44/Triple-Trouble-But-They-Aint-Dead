@@ -7,7 +7,7 @@ Davidgreen123: https://www.youtube.com/channel/UC3P5Zu9ZsGhuU22lMEDrljw
 
 The chart:
 
-niffirg: https://www.youtube.com/channel/UChO2chNXE-RUZanwtgWZVHw
-Fidy50: https://twitter.com/50Fidy
-Kye_VL: https://twitter.com/Kye_VL
-Glitchy: https://twitter.com/Glitchy2260
+\nniffirg: https://www.youtube.com/channel/UChO2chNXE-RUZanwtgWZVHw
+\nFidy50: https://twitter.com/50Fidy
+\nKye_VL: https://twitter.com/Kye_VL
+\nGlitchy: https://twitter.com/Glitchy2260
